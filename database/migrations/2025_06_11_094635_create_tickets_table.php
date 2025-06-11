@@ -9,10 +9,10 @@ return new class extends Migration {
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('event_id')->constrained('events')->onDelete('cascade');
-            $table->string('nama');
-            $table->integer('stok');
-            $table->decimal('harga', 10, 2);
+            $table->foreignId('event_id')->constrained('events')->onDelete('cascade'); // Relasi ke tabel events
+            $table->string('nama'); // Nama tiket (contoh: VIP, Reguler)
+            $table->integer('stok'); // Jumlah stok tiket
+            $table->decimal('harga', 10, 2); // Harga tiket
             $table->timestamps();
         });
     }
@@ -22,4 +22,3 @@ return new class extends Migration {
         Schema::dropIfExists('tickets');
     }
 };
-

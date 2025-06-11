@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes; // <-- Tambahkan ini
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-    use HasFactory, SoftDeletes; // <-- Tambahkan SoftDeletes di sini
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'admin_id',
@@ -18,6 +18,7 @@ class Event extends Model
         'jam_selesai',
         'lokasi',
         'deskripsi',
+        'gambar', // Tambahkan kolom gambar
     ];
 
     public function admin()

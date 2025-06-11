@@ -11,9 +11,9 @@ class Ticket extends Model
 
     protected $fillable = [
         'event_id',
-        'nama_tiket',
+        'nama', // Ubah dari nama_tiket ke nama
         'harga',
-        'kuota',
+        'stok', // Ubah dari kuota ke stok
     ];
 
     public function event()
