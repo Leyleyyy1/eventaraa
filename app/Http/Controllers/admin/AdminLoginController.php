@@ -8,14 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminLoginController extends Controller
 {
-    // Tampilkan form login
     public function showLoginForm()
     {
-        // PERBAIKAN DI SINI
         return view('auth.admin.login');
     }
 
-    // Proses login
     public function login(Request $request)
     {
         $credentials = $request->validate([

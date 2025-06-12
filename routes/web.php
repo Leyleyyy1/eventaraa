@@ -56,5 +56,5 @@ Route::get('/user/login', [UserLoginController::class, 'showLoginForm'])->name('
 Route::post('/user/login', [UserLoginController::class, 'login'])->name('user.login.submit');
 
 Route::get('/user/dashboard', function () {
-    return view('user.dashboard'); 
-})->name('user.dashboard');
+    return view('user.landingpage'); 
+})->name('user.landingpage');

@@ -21,7 +21,7 @@ class UserLoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('user.dashboard');
+            return redirect()->route('user.landingpage');
         }
 
         return back()->withErrors([
