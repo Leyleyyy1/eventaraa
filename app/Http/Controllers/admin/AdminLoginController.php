@@ -17,15 +17,23 @@ class AdminLoginController extends Controller
     {
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string',
+            'password' => 'required|string'
         ]);
 
         if (Auth::guard('admin')->attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back()->withErrors(['email' => 'Email atau password salah.'])->onlyInput('email');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('admin.login');
     }
 }

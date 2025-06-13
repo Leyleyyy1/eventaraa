@@ -10,36 +10,31 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminRegisterController extends Controller
 {
-    // Tampilkan form register
     public function showRegisterForm()
     {
-        // PERBAIKAN DI SINI — path view disesuaikan
         return view('auth.admin.register');
     }
 
-    // Proses register
     public function register(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'organization' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
             'phone' => 'required|string|max:20',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed'
         ]);
 
         $admin = Admin::create([
-            'name' => $request->name,
-            'organization' => $request->organization,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'organization' => $validated['organization'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
         ]);
 
-        // Auto login setelah register (opsional, bisa dihapus kalau mau)
         Auth::guard('admin')->login($admin);
 
-        // Redirect ke halaman login / dashboard admin
-        return redirect()->route('admin.login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('admin.dashboard')->with('success', 'Berhasil register sebagai admin.');
     }
 }

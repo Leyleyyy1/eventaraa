@@ -17,15 +17,13 @@ class UserLoginController extends Controller
     {
         $credentials = $request->validate([
             'email' => 'required|email',
-            'password' => 'required|string',
+            'password' => 'required|string'
         ]);
 
         if (Auth::attempt($credentials)) {
             return redirect()->route('user.landingpage');
         }
 
-        return back()->withErrors([
-            'email' => 'Email atau password salah.',
-        ]);
+        return back()->withErrors(['email' => 'Email atau password salah.']);
     }
 }

@@ -2,20 +2,39 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\AdminRegisterController;
+use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegisterController;
+use App\Http\Controllers\User\AuthFirebaseController;
+use App\Http\Controllers\User\GoogleAuthController;
+
 
 Route::get('/', function () {
     return view('user.landingpage');
 });
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/register', [App\Http\Controllers\Admin\AdminRegisterController::class, 'showRegisterForm'])->name('register');
-    Route::post('/register', [App\Http\Controllers\Admin\AdminRegisterController::class, 'register'])->name('register.submit');
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/register', [UserRegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [UserRegisterController::class, 'register'])->name('register.submit');
 
-    Route::get('/login', [App\Http\Controllers\Admin\AdminLoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [App\Http\Controllers\Admin\AdminLoginController::class, 'login'])->name('login.submit');
+    Route::get('/login', [AuthFirebaseController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthFirebaseController::class, 'login'])->name('login.submit');
+
+    Route::get('/login/google', fn() => view('user.google-login'))->name('google.login');
+    Route::post('/login/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/dashboard', fn() => view('user.dashboard'))->name('dashboard');
+    });
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/register', [AdminRegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AdminRegisterController::class, 'register'])->name('register.submit');
+
+    Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminLoginController::class, 'login'])->name('login.submit');
 
     Route::post('/logout', function () {
         Auth::guard('admin')->logout();
@@ -23,21 +42,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     })->name('logout');
 
     Route::middleware(['auth:admin'])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
-
-        Route::get('/users', function () {
-            return view('admin.users');
-        })->name('users');
-
-        Route::get('/transactions', function () {
-            return view('admin.transactions');
-        })->name('transactions');
-
-        Route::get('/reports', function () {
-            return view('admin.reports');
-        })->name('reports');
+        Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+        Route::get('/users', fn() => view('admin.users'))->name('users');
+        Route::get('/transactions', fn() => view('admin.transactions'))->name('transactions');
+        Route::get('/reports', fn() => view('admin.reports'))->name('reports');
 
         Route::get('/events', [EventController::class, 'index'])->name('events.kelolaevent');
         Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
@@ -48,13 +56,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/events/{id}', [EventController::class, 'show'])->name('events.detail');
     });
 });
-
-Route::get('/user/register', [UserRegisterController::class, 'showRegisterForm'])->name('user.register');
-Route::post('/user/register', [UserRegisterController::class, 'register'])->name('user.register.submit');
-
-Route::get('/user/login', [UserLoginController::class, 'showLoginForm'])->name('user.login');
-Route::post('/user/login', [UserLoginController::class, 'login'])->name('user.login.submit');
-
-Route::get('/user/dashboard', function () {
-    return view('user.landingpage'); 
-})->name('user.landingpage');

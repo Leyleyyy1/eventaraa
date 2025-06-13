@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class UserRegisterController extends Controller
 {
@@ -20,17 +19,16 @@ class UserRegisterController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed'
         ]);
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'firebase_uid' => null,
+            'password' => Hash::make($request->password)
         ]);
 
-        Auth::login($user);
-
-        return redirect()->route('user.login')->with('success', 'Registrasi berhasil! Silakan login.');
+        return redirect()->route('user.login')->with('success', 'Registrasi berhasil');
     }
 }
