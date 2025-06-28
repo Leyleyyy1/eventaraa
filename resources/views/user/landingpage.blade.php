@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app') 
+
+@section('title', 'Beranda | EvenTara') 
 
 @section('content')
 
@@ -15,11 +17,16 @@
     </div>
 </section>
 
-<section class="py-5">
-    <div class="container">
-        <h2 class="fw-bold mb-4">Upcoming Events</h2>
+<section class="py-5" style="background-color: #fdf7ee;">
+    <div class="container text-center">
+        <img src="{{ asset('images/logo2.png') }}" alt="Ornamen Budaya" class="mb-4" style="max-height: 80px;">
+        <h2 class="fw-bold mb-3" style="color: #5c3a1e;">"Ragam Budaya, Satu Cerita"</h2>
+        <p class="text-muted mb-4" style="font-style: italic;">
+            Merangkai keberagaman menjadi satu kesatuan yang indah — itulah budaya Indonesia.
+        </p>
     </div>
 </section>
+
 
 <section class="py-5" style="background-color: #4b2e18;">
     <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between text-white">
@@ -34,15 +41,21 @@
     </div>
 </section>
 
-<script>
-    window.addEventListener('scroll', function() {
-        const navbar = document.getElementById('navbar');
-        if (window.scrollY > 100) {
-            navbar.style.background = 'linear-gradient(to right, rgba(162, 140, 74, 0.9), rgba(36, 30, 1, 0.9))';
-        } else {
-            navbar.style.background = 'linear-gradient(to right, rgba(162, 140, 74, 0.0), rgba(36, 30, 1, 0.0))';
-        }
-    });
-</script>
 
 @endsection
+
+@if (session('logout_success'))
+    <script>
+        if (typeof Swal !== "undefined") {
+            Swal.fire({
+                title: 'Logout Berhasil!',
+                text: '{{ session('logout_success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        } else {
+            alert('{{ session('logout_success') }}');
+        }
+    </script>
+@endif
+

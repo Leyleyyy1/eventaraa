@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Admin | EvenTara</title>
 
-    <!-- Google Fonts Poppins -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -82,16 +81,15 @@
 </head>
 <body>
     <div class="container">
-        <!-- KIRI -->
+
         <div class="left">
             <img src="{{ asset('images/registeradm.png') }}" alt="Login Admin">
         </div>
 
-        <!-- KANAN -->
         <div class="right">
             <div class="form-wrapper">
                 <h3>Login as Event Organizer</h3>
-                <form action="{{ route('admin.login.submit') }}" method="POST">
+                <form method="POST" action="{{ route('admin.login.submit') }}">
 
                     @csrf
                     <div class="form-group">

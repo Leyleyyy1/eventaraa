@@ -18,7 +18,7 @@ class Event extends Model
         'jam_selesai',
         'lokasi',
         'deskripsi',
-        'gambar', // Tambahkan kolom gambar
+        'gambar', 
     ];
 
     public function admin()
